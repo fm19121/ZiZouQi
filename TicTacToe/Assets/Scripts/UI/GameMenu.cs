@@ -23,6 +23,18 @@ public class GameMenu : MonoBehaviour
 
     private bool displayMenu;
 
+    public static GameMenu Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("More than one TurnManager");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
     private void Start()
     {
         Time.timeScale = 1f;
@@ -30,10 +42,6 @@ public class GameMenu : MonoBehaviour
         gameRule.SetActive(false);
         gameMenu.SetActive(false);
         displayMenu = false;
-    }
-
-    private void OnEnable()
-    {
         if (isClassicMode)
         {
             TurnManager.Instance.OnTurnChanged += DetectClassicModeEnd;
@@ -51,19 +59,6 @@ public class GameMenu : MonoBehaviour
         {
             CallMenuInGame();
         }
-    }
-
-    private void OnDisable()
-    {
-        if (isClassicMode)
-        {
-            TurnManager.Instance.OnTurnChanged -= DetectClassicModeEnd;
-        }
-        else
-        {
-            TurnManager.Instance.OnTurnChanged -= DetectCreativeModeEnd;
-        }
-        UIManager.OnMenuCalled -= CallMenuInGame;
     }
     private void WinMenu()
     {
