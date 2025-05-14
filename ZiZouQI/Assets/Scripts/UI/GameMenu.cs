@@ -50,15 +50,31 @@ public class GameMenu : MonoBehaviour
         {
             TurnManager.Instance.OnTurnChanged += DetectCreativeModeEnd;
         }
-        UIManager.OnMenuCalled += CallMenuInGame;
     }
 
+    private void OnEnable()
+    {
+        UIManager.OnMenuCalled += CallMenuInGame;
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             CallMenuInGame();
         }
+    }
+
+    private void OnDisable()
+    {
+        if (isClassicMode)
+        {
+            TurnManager.Instance.OnTurnChanged -= DetectClassicModeEnd;
+        }
+        else
+        {
+            TurnManager.Instance.OnTurnChanged -= DetectCreativeModeEnd;
+        }
+        UIManager.OnMenuCalled -= CallMenuInGame;
     }
     private void WinMenu()
     {
