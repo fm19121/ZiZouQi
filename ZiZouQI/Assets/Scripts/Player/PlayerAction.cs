@@ -24,7 +24,7 @@ public class PlayerAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameRuleManager.Instance.IsGameEnd())
+        if (GameRuleManager.Instance.IsClassicModeEnd())
         {
             return;
         }

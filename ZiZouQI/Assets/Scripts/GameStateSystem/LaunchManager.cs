@@ -14,6 +14,7 @@ public class LaunchManager : MonoBehaviour
     private float power;
     private Vector3 launchDir;
     private bool isLaunching;
+    private bool isRisePower;
     private GameObject currentPawn;
 
     private Pawn p;
@@ -34,6 +35,7 @@ public class LaunchManager : MonoBehaviour
     {
         InitLaunch();
         isLaunching = false;
+        isRisePower = true;
         TurnManager.Instance.OnTurnChanged += InitLaunch;
     }
 
@@ -53,9 +55,22 @@ public class LaunchManager : MonoBehaviour
     {
         if(power > maxPower) 
         {
-            power = 0;
+            power = maxPower;
+            isRisePower = false;
         }
-        power += Time.deltaTime * 20;
+        else if(power < 0)
+        {
+            power = 0;
+            isRisePower = true;
+        }
+        if (isRisePower)
+        {
+            power += Time.deltaTime * 20;
+        }
+        else
+        {
+            power -= Time.deltaTime * 20;
+        }
     }
 
     private void InitLaunch()
@@ -97,7 +112,7 @@ public class LaunchManager : MonoBehaviour
     {
         //S = V ^ 2 / 2 a
         //V = sqrt(2 a S)
-        float a = (float)(6 + physicMaterial.dynamicFriction * 10);
+        float a = (float)(8 + physicMaterial.dynamicFriction * 10);
         float v = (float)Math.Sqrt(2 * distance * a);
         return v;
     }

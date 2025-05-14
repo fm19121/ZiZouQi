@@ -19,7 +19,8 @@ public class CreativeModeAI : MonoBehaviour
         }
         if (!TurnManager.Instance.GetIsPlayerTurn() && !LaunchManager.Instance.GetIsLaunching())
         {
-            if(PawnManager.Instance.GetPawnObjects().Count > 5)
+            bool isDisturb = Random.Range(0, 2) == 0;
+            if (PawnManager.Instance.GetPawnObjects().Count > 5 && isDisturb)
             {
                 DisturbPlayer();
             }
@@ -43,12 +44,12 @@ public class CreativeModeAI : MonoBehaviour
         return LaunchManager.Instance.CalculateSpeed(direction, distance);
     }
 
-    private void LaunchToTarget(Vector3 target)
+    private void LaunchToTarget(Vector3 target, float minOffset, float maxOffset)
     {
         float speed = CalculateSpeed(target);
         LaunchManager.Instance.UpdatePowerValue();
         float power = LaunchManager.Instance.GetCurrentPower();
-        if (power >= speed - 0.1 && power <= speed + 0.5)
+        if (speed + minOffset <= power && power <= speed + maxOffset)
         {
             LaunchManager.Instance.LaunchPawn(CalculateDirection(target));
             PawnManager.Instance.ReduceAIPawn();
@@ -61,7 +62,7 @@ public class CreativeModeAI : MonoBehaviour
         ScoredGrid grid = AI.MinMax(-1, 1, false);
         GridPosition gridPos = grid.GetGridPosition();
         Vector3 worldPos = CheeseBoard.Instance.GetWorldPosition(gridPos);
-        LaunchToTarget(worldPos);
+        LaunchToTarget(worldPos, 3, 10);
     }
     private void DisturbPlayer()
     {
@@ -73,7 +74,7 @@ public class CreativeModeAI : MonoBehaviour
             i= (i+ 1) % size;
         }
         Vector3 targetPos = playerPawns[i].GetComponentInChildren<Rigidbody>().position;
-        LaunchToTarget(targetPos);
+        LaunchToTarget(targetPos, 12, 20);
         /*foreach (GameObject playerPawn in playerPawns)
         {
             bool isPlayerPawn = playerPawn.GetComponentInChildren<PawnInfo>().GetIsPlayer();

@@ -9,7 +9,7 @@ public class AI
     public static ScoredGrid MinMax(int alpha, int beta, bool isMaxPlayer)
     {
         List<GridPosition> emptyGrids = CheeseBoard.Instance.GetEmptyGrids();
-        if (GameRuleManager.Instance.IsGameEnd())
+        if (GameRuleManager.Instance.IsClassicModeEnd())
         {
             ScoredGrid scoredGrid = new ScoredGrid(GameRuleManager.Instance.EvaluateScore());
             return scoredGrid;

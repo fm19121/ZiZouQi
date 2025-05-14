@@ -89,7 +89,7 @@ public class GameRuleManager : MonoBehaviour
         }
     }
 
-    public bool IsGameEnd()
+    public bool IsClassicModeEnd()
     {
         if(GetWinPawn() != null || CheeseBoard.Instance.GetEmptyGrids().Count() < 1)
         {

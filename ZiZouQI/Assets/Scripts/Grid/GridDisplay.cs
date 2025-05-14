@@ -36,6 +36,7 @@ public class GridDisplay : MonoBehaviour
         if (isClassicMode)
         {
             UpdateSelectedGridRender();
+            RenderGridWithPawn();
         }
         else
         {
@@ -73,6 +74,29 @@ public class GridDisplay : MonoBehaviour
                 GetSingleGridUI(newSelectedGrid).BeSelected();
                 selectedGrid = newSelectedGrid;
             }
+        }
+    }
+
+    private void RenderGridWithPawn()
+    {
+        GridObject[,] gridObjects = CheeseBoard.Instance.GetGridObjects();
+        for (int x = 0; x < 3; x++)
+        {
+            for (int z = 0; z < 3; z++)
+            {
+                if (gridObjects[x, z].GetPawn() != null)
+                {
+                    if (gridObjects[x, z].GetPawn().GetIsPlayer())
+                    {
+                        GetSingleGridUI(gridObjects[x, z]).SetIsPlayerPawnOnGrid();
+                    }
+                    else
+                    {
+                        GetSingleGridUI(gridObjects[x, z]).SetIsAIPawnOnGrid();
+                    }
+                }
+            }
+
         }
     }
 

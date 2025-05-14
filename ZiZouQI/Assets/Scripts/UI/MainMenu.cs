@@ -6,26 +6,58 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private Button startButton;
+    [SerializeField] private Button classicModeButton;
+    [SerializeField] private Button creativeModeButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button gameRuleButton;
+    [SerializeField] private GameObject gameRule;
+    [SerializeField] private Button closeGameRuleButton;
     private void Start()
     {
-        SetStartButton();
+        SetClassicModeButton();
+        SetCreativeModeMenu();
         SetQuitButton();
+        SetGameRuleButton();
+        SetCloseGameRuleButton();
+        gameRule.SetActive(false);
     }
-    private void SetStartButton()
+    private void SetClassicModeButton()
     {
-        startButton.onClick.AddListener(() => StartGame());
+        classicModeButton.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(1);
+        });
+    }
+
+    private void SetCreativeModeMenu()
+    {
+        creativeModeButton.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(2);
+        });
     }
 
     private void SetQuitButton()
     {
         quitButton.onClick.AddListener(() => QuitGame());
     }
-    private void StartGame()
+
+    private void SetGameRuleButton()
     {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(1);
+        gameRuleButton.onClick.AddListener(() =>
+        {
+            gameRule.SetActive(true);
+        });
+    }
+
+    private void SetCloseGameRuleButton()
+    {
+        closeGameRuleButton.onClick.AddListener(() =>
+        {
+            gameRule.SetActive(false);
+        });
     }
 
     private void QuitGame()

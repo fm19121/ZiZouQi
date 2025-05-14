@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,11 +11,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI turnText;
     [SerializeField] private TextMeshProUGUI PlayerPawnNum;
     [SerializeField] private TextMeshProUGUI AIPawnNum;
+    [SerializeField] private Button menuButton;
+
+    public static Action OnMenuCalled;
     void Start()
     {
         InitPowerUI();
         UpdateTurnText();
         UpdatePawnNumUI();
+        SetMenuButton();
         TurnManager.Instance.OnTurnChanged += UpdateTurnText;
         TurnManager.Instance.OnTurnChanged += UpdatePawnNumUI;
     }
@@ -52,5 +57,13 @@ public class UIManager : MonoBehaviour
         {
             turnText.text = " Opponent's Turn ";
         }
+    }
+
+    private void SetMenuButton()
+    {
+        menuButton.onClick.AddListener(() =>
+        {
+            OnMenuCalled?.Invoke();
+        });
     }
 }
