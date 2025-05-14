@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerAction : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class PlayerAction : MonoBehaviour
     void Update()
     {
         if (GameRuleManager.Instance.IsClassicModeEnd())
+        {
+            return;
+        }
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
